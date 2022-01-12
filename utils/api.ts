@@ -38,7 +38,7 @@ const exampleArticle = {
   ]
 }
 
-type Article = typeof exampleArticle
+export type Article = typeof exampleArticle
 
 async function fetchArticles() {
     const articles: AxiosResponse<Article> = await axios.get(API_URL)
