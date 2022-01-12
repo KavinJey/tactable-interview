@@ -3,8 +3,16 @@ import Head from 'next/head'
 import Image from 'next/image'
 import ArticleCard from '../components/articleCard'
 import styles from '../styles/Home.module.css'
+import { useQuery } from 'react-query'
+import { fetchArticles } from '../utils/api'
+import { useEffect } from 'react'
 
 const Home: NextPage = () => {
+    const articles = useQuery('articles', fetchArticles)
+
+    useEffect(() => {
+ console.log('here is articles', articles)
+    }, [articles])
   return (
     <div className={styles.container}>
         <ArticleCard />

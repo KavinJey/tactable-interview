@@ -1,32 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+//  Typically be an process.env var or something but for the sake of brevity
+import axios, { AxiosResponse } from 'axios'
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-
-# Description
-
-Implement a component that displays blog posts from an API.
-
-Blog Data API:
-https://6144e843411c860017d256f0.mockapi.io/api/v1/posts
-
-
-# JSON Structure
-
-```json
-{
+const API_URL = 'https://6144e843411c860017d256f0.mockapi.io/api/v1/posts'
+const exampleArticle = {
   "title": "title 1",
   "description": "Similique ipsum ut quae et cum. Quas et nisi at. Mollitia dolor quo dolores quia dolorem quam harum aut quis. Est enim vitae voluptate aliquid eligendi quia est doloremque.",
   "createdAt": "2021-05-20T01:13:07.861Z",
@@ -61,25 +37,13 @@ https://6144e843411c860017d256f0.mockapi.io/api/v1/posts
     }
   ]
 }
-```
 
-# Expectations
+type Article = typeof exampleArticle
 
-> Tech Stack
+async function fetchArticles() {
+    const articles: AxiosResponse<Article> = await axios.get(API_URL)
+    return articles
+}
 
-- You should use `Next.js + Typescript`
-- You should use `styled-components` or anything similar.
-- Data Fetching should be done via `React-Query`
-- Design Kit - anything but material-ui 😢. Feel free to surprise us
-- You have unit/component tests
 
-> Posts
-
-- UI should display the recent post (newly created) and can only have 5 posts per page. 
-- Post should ideally be in the form of Card
-
-> Bonus
-
-- Good UI
-- Functional Component and Hooks
-
+export { fetchArticles }
