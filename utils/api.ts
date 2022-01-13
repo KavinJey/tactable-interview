@@ -40,8 +40,10 @@ const exampleArticle = {
 
 export type Article = typeof exampleArticle
 
-async function fetchArticles() {
-    const articles: AxiosResponse<Article> = await axios.get(API_URL)
+async function fetchArticles(): Promise<Article[]> {
+    const articleHttpResponse: AxiosResponse<Article[]> = await axios.get(API_URL)
+    const articles = articleHttpResponse.data
+
     return articles
 }
 
