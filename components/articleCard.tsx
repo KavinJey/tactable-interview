@@ -2,7 +2,7 @@ import { Article } from "../utils/api"
 
 const ArticleCard: React.FC<Article> = (article: Article) => {
 
- const { title, description } = article;
+ const { title, description, updatedAt, createdAt, comments, authors  } = article;
 
  return (
      <div>
