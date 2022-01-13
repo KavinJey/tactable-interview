@@ -16,7 +16,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       {articles.data?.map(
-        (article, index) => <ArticleCard key={index} {...article}  />
+        (article) => <ArticleCard key={article.id} {...article}  />
       )}
       <Head>
         <title>Create Next App</title>
