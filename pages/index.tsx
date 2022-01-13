@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
     const articles = useQuery("articles", fetchArticles);
-    const [listedArticles, setListedArticles] = useState<Article[] | any[]>([]);
+    const [listedArticles, setListedArticles] = useState();
     const [pages, setPages] = useState(1);
     const router = useRouter();
     const { pg } = router.query;
@@ -33,23 +33,30 @@ const Home: NextPage = () => {
         return pageButtonElements;
     };
 
-    // useEffect(() => {
-    //     if (articles.data) {
-    //         setPages(Math.round(articles.data.length / 5));
-    //     }
-    // }, [pages, articles]);
+    useEffect(() => {
+        if (articles.data) {
+            setPages(Math.round(articles.data.length / 5));
+        }
+    }, [pages, articles]);
 
 
     useEffect(() => {
         if (articles.data) {
-            let sortedArticles = articles.data
-            sortedArticles.sort(
+            const sortedArticles = [].concat(articles.data).sort(
                 (articleA, articleB) => {
                     const dateA = new Date(articleA.createdAt)
                     const dateB = new Date(articleB.createdAt)
                     return dateA.getTime() - dateB.getTime();
                 }
-            )
+            ).map(
+                (article) => (<a
+                            key={article.id}
+                            href="https://kavinjey.xyz"
+                            className={styles.card}
+                        >
+                            <ArticleCard {...article} />
+                        </a>))
+            
             const numPg = pg ? Number.parseInt(pg as string) : 1
 
             //   pg1 = 5 - 5 = 0
@@ -57,43 +64,12 @@ const Home: NextPage = () => {
             // pg1 = 5 * 1 = 5
             const max = numPg * 5
            
-            setListedArticles(sortedArticles.splice(min, max))
+            setListedArticles(sortedArticles.slice(min, max))
 
 
         }
-    }, [pg, articles, listedArticles, setListedArticles]);
+    }, [pg, articles, listedArticles]);
 
-
-    // useEffect(() => {
-    //     console.log('here is articles', articles)
-    //     if (articles.data) {
-
-    //             console.log('damn', pg)
-    //             // pg is number from pages
-    //             // number * 5 is limit - 5 is min
-
-    //             const numPg =  pg ? Number.parseInt(pg as string) : 1
-
-    //             // pg1 = 5 - 5 = 0
-    //             const min = (numPg*5) - 5
-    //             // pg1 = 5 * 1 = 5
-    //             const max = numPg*5
-    //             const dateSortedArticles = articles.data.sort(
-    //                 (articleA, articleB) => {
-    //                     const dateA = new Date(articleA.createdAt)
-    //                     const dateB = new Date(articleB.createdAt)
-    //                     return dateA.getTime() - dateB.getTime();
-    //                 }
-    //             )
-
-    //             const paginatedArticles = articles.data.splice(min, max)
-    //             console.log('this is articlesdata',dateSortedArticles, min, max)
-    //             console.log('paginated articles are here', paginatedArticles)
-
-    //     } else {
-    //         setListedArticles([])
-    //     }
-    // }, [articles, pg, listedArticles])
     return (
         <div className={styles.container}>
             <Head>
@@ -117,15 +93,8 @@ const Home: NextPage = () => {
                 <div className="flex">{pageButtons(pages)}</div>
 
                 <div className={styles.grid}>
-                    {articles.data?.map((article) => (
-                        <a
-                            key={article.id}
-                            href="https://kavinjey.xyz"
-                            className={styles.card}
-                        >
-                            <ArticleCard {...article} />
-                        </a>
-                    ))}
+                    {listedArticles}
+                  
                 </div>
             </main>
 
