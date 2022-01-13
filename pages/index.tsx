@@ -1,127 +1,124 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import ArticleCard from '../components/articleCard'
-import styles from '../styles/Home.module.css'
-import { useQuery } from 'react-query'
-import { Article, fetchArticles } from '../utils/api'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import ArticleCard from "../components/articleCard";
+import styles from "../styles/Home.module.css";
+import { useQuery } from "react-query";
+import { Article, fetchArticles } from "../utils/api";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-    const articles = useQuery('articles', fetchArticles)
-    const [listedArticles, setListedArticles] = useState<Article[] | any[]>([])
-    const [pages, setPages] = useState(0)
-    const router = useRouter()
-    const { pg } = router.query
+  const articles = useQuery("articles", fetchArticles);
+  const [listedArticles, setListedArticles] = useState<Article[] | any[]>([]);
+  const [pages, setPages] = useState(0);
+  const router = useRouter();
+  const { pg } = router.query;
 
-    const pageButtons = (pg: number) => {
-        const pageButtonElements = [];
-        for (let i = 1; i <= pg + 1; i++) {
-            pageButtonElements.push(
-                <button 
-                    onClick={() => 
-                        { router.push(`/?pg=${i}`, undefined, { shallow: true })}
-                    } 
-                    className="hover:bg-blue-700 mx-2 font-bold py-2 px-4 border" > 
-                    {i}
-                </button>
-            )
-        }
-        return pageButtonElements
+  const pageButtons = (pg: number) => {
+    const pageButtonElements = [];
+    for (let i = 1; i <= pg + 1; i++) {
+      pageButtonElements.push(
+        <button
+          onClick={() => {
+            router.push(`/?pg=${i}`, undefined, { shallow: true });
+          }}
+          className="hover:bg-blue-700 mx-2 font-bold py-2 px-4 border"
+        >
+          {i}
+        </button>
+      );
     }
+    return pageButtonElements;
+  };
 
+  useEffect(() => {
+    if (articles.data) {
+      console.log("pages before", pages);
+      setPages(Math.round(articles.data.length / 5));
+      console.log("pages after", pages);
+    }
+  }, [pages, articles]);
 
-    useEffect(() => {
-        if (articles.data) {
-            console.log('pages before', pages)
-            setPages(Math.round(articles.data.length / 5))
-            console.log('pages after', pages)
-        }
-    }, [pages, articles])
+  // useEffect(() => {
+  //     console.log('here is articles', articles)
+  //     if (articles.data) {
 
-    // useEffect(() => {
-    //     console.log('here is articles', articles)
-    //     if (articles.data) {
+  //             console.log('damn', pg)
+  //             // pg is number from pages
+  //             // number * 5 is limit - 5 is min
 
-    //             console.log('damn', pg)
-    //             // pg is number from pages
-    //             // number * 5 is limit - 5 is min
+  //             const numPg =  pg ? Number.parseInt(pg as string) : 1
 
-    //             const numPg =  pg ? Number.parseInt(pg as string) : 1
+  //             // pg1 = 5 - 5 = 0
+  //             const min = (numPg*5) - 5
+  //             // pg1 = 5 * 1 = 5
+  //             const max = numPg*5
+  //             const dateSortedArticles = articles.data.sort(
+  //                 (articleA, articleB) => {
+  //                     const dateA = new Date(articleA.createdAt)
+  //                     const dateB = new Date(articleB.createdAt)
+  //                     return dateA.getTime() - dateB.getTime();
+  //                 }
+  //             )
 
-    //             // pg1 = 5 - 5 = 0
-    //             const min = (numPg*5) - 5 
-    //             // pg1 = 5 * 1 = 5
-    //             const max = numPg*5
-    //             const dateSortedArticles = articles.data.sort(
-    //                 (articleA, articleB) => {
-    //                     const dateA = new Date(articleA.createdAt)
-    //                     const dateB = new Date(articleB.createdAt)
-    //                     return dateA.getTime() - dateB.getTime();
-    //                 }
-    //             )
+  //             const paginatedArticles = articles.data.splice(min, max)
+  //             console.log('this is articlesdata',dateSortedArticles, min, max)
+  //             console.log('paginated articles are here', paginatedArticles)
 
-    //             const paginatedArticles = articles.data.splice(min, max)
-    //             console.log('this is articlesdata',dateSortedArticles, min, max)
-    //             console.log('paginated articles are here', paginatedArticles)
+  //     } else {
+  //         setListedArticles([])
+  //     }
+  // }, [articles, pg, listedArticles])
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Tactable Front End Challenge - Kavin Jey</title>
+        <meta
+          name="description"
+          content="Generated by create next app, and fulfills set out requirements."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
+      <main className={styles.main}>
+        <h1 className={styles.title}>Blog Articles</h1>
 
+        <div className="flex">{}</div>
 
+        <p className={styles.description}>
+          The five latest blog posts, served hot off the press!
+        </p>
 
-    //     } else { 
-    //         setListedArticles([])
-    //     }
-    // }, [articles, pg, listedArticles])
-    return (
-        <div className={styles.container}>
-            <Head>
-                <title>Tactable Front End Challenge - Kavin Jey</title>
-                <meta name="description" content="Generated by create next app, and fulfills set out requirements." />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+        <div className="flex">{pageButtons(pages)}</div>
 
-            <main className={styles.main}>
-                <h1 className={styles.title}>
-                    Blog Articles
-                </h1>
-
-                <div className="flex">
-                    { }
-                </div>
-
-                <p className={styles.description}>
-                    The five latest blog posts, served hot off the press!
-                </p>
-
-                <div className="flex">
-                    {pageButtons(pages)}
-                </div>
-
-                <div className={styles.grid}>
-                    {articles.data?.map(
-                        (article) => (
-                            <a key={article.id} href="https://kavinjey.xyz" className={styles.card}>
-                                <ArticleCard  {...article} />
-                            </a>)
-                    )}
-                </div>
-            </main>
-
-            <footer className={styles.footer}>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Powered by{' '}
-                    <span className={styles.logo}>
-                        <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-                    </span>
-                </a>
-            </footer>
+        <div className={styles.grid}>
+          {articles.data?.map((article) => (
+            <a
+              key={article.id}
+              href="https://kavinjey.xyz"
+              className={styles.card}
+            >
+              <ArticleCard {...article} />
+            </a>
+          ))}
         </div>
-    )
-}
+      </main>
 
-export default Home
+      <footer className={styles.footer}>
+        <a
+          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by{" "}
+          <span className={styles.logo}>
+            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+          </span>
+        </a>
+      </footer>
+    </div>
+  );
+};
+
+export default Home;

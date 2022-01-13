@@ -5,7 +5,6 @@ Implement a component that displays blog posts from an API.
 Blog Data API:
 https://6144e843411c860017d256f0.mockapi.io/api/v1/posts
 
-
 # JSON Structure
 
 ```json
@@ -58,11 +57,10 @@ https://6144e843411c860017d256f0.mockapi.io/api/v1/posts
 
 > Posts
 
-- UI should display the recent post (newly created) and can only have 5 posts per page. 
+- UI should display the recent post (newly created) and can only have 5 posts per page.
 - Post should ideally be in the form of Card
 
 > Bonus
 
 - Good UI
 - Functional Component and Hooks
-
