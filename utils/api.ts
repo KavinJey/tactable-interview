@@ -67,7 +67,6 @@ async function fetchArticles(): Promise<ArticleResponse> {
     numberOfPages: pagesNumber,
     currentArticlesForView: articles.slice(0, 5)
   }
-  console.log('this is article resppnse', articles)
 
   return articleResponse;
 }

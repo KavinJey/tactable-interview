@@ -44,7 +44,6 @@ const Home: NextPage = () => {
       // pg1 = 5 * 1 = 5
       const max = numPg * 5;
 
-      console.log('articles', articlesResponse.data.articles)
       setArticles({
         articles: articlesResponse.data.articles.slice(min, max),
       });
