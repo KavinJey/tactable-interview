@@ -5,22 +5,30 @@ const ArticleCard: React.FC<Article> = (article: Article) => {
     article;
 
   return (
-    <div className="flex flex-col">
-      <h1> {title} </h1>
-      <p> {description} </p>
-      <small> {createdAt.toLocaleLowerCase()}</small>
-      
-      <small>  {  updatedAt.toString() }</small>
+    <div className="flex flex-col prose">
+      <h1 role="heading"> {title} </h1>
+      <small className="prose-sm">
+        {" "}
+        Written {new Date(createdAt).toLocaleDateString("en-us")}
+      </small>
+      <small className="prose-sm prose-zinc">
+        {" "}
+        Updated {new Date(createdAt).toLocaleDateString("en-us")}
+      </small>
+      <p role="contentinfo"> {description} </p>
 
       <div className="details">
-        <p> Comments ({comments.length}) </p>
         <p>
-          {" "}
           By{" "}
-          {authors.map((author) => {
-            return `${author.name}\n`;
-          })}
+          {authors.length > 1 &&
+            authors.map((author, index) => {
+              return `${author.name}\n ${
+                index !== authors.length - 1 ? "& " : ""
+              }`;
+            })}
+          {authors.length === 1 && `${authors[0].name}\n`}
         </p>
+        <p className="prose-sm"> Comments ({comments.length}) </p>
       </div>
     </div>
   );

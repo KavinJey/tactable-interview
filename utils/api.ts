@@ -42,13 +42,34 @@ const exampleArticle = {
 
 export type Article = typeof exampleArticle;
 
-async function fetchArticles(): Promise<Article[]> {
+export type ArticleResponse = {
+  articles: Article[];
+  numberOfArticles: number;
+  numberOfPages: number;
+  currentArticlesForView: Article[];
+}
+async function fetchArticles(): Promise<ArticleResponse> {
   const articleHttpResponse: AxiosResponse<Article[]> = await axios.get(
     API_URL
   );
   const articles = articleHttpResponse.data;
+  articles.sort((articleA, articleB) => {
+                    const dateA = new Date(articleA.createdAt)
+                    const dateB = new Date(articleB.createdAt)
+                    return  dateB.getTime() - dateA.getTime();
+                })
 
-  return articles;
+  const pagesNumber = (Math.round(articles.length / 5 ) > 1) ? Math.round(articles.length / 5 ) : 1
+
+  const articleResponse = {
+    articles: articles,
+    numberOfArticles: articles.length,
+    numberOfPages: pagesNumber,
+    currentArticlesForView: articles.slice(0, 5)
+  }
+  console.log('this is article resppnse', articles)
+
+  return articleResponse;
 }
 
 export { fetchArticles };

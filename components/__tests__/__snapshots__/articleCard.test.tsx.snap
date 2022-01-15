@@ -2,6 +2,56 @@
 
 exports[`Article Card renders homepage unchanged 1`] = `
 <div>
-  <div />
+  <div
+    class="flex flex-col prose"
+  >
+    <h1
+      role="heading"
+    >
+       
+      title 1
+       
+    </h1>
+    <small
+      class="prose-sm"
+    >
+       
+      Written 
+      5/19/2021
+    </small>
+    <small
+      class="prose-sm prose-zinc"
+    >
+       
+      Updated 
+      5/19/2021
+    </small>
+    <p
+      role="contentinfo"
+    >
+       
+      Similique ipsum ut quae et cum. Quas et nisi at. Mollitia dolor quo dolores quia dolorem quam harum aut quis. Est enim vitae voluptate aliquid eligendi quia est doloremque.
+       
+    </p>
+    <div
+      class="details"
+    >
+      <p>
+        By
+         
+        Alison Ondricka
+ & 
+        Leigh Schuppe
+ 
+      </p>
+      <p
+        class="prose-sm"
+      >
+         Comments (
+        1
+        ) 
+      </p>
+    </div>
+  </div>
 </div>
 `;
