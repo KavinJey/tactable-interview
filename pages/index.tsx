@@ -33,15 +33,11 @@ const Home: NextPage = () => {
         return pageButtonElements;
     };
 
-    useEffect(() => {
-        if (articles.data) {
-            setPages(Math.round(articles.data.length / 5));
-        }
-    }, [pages, articles]);
-
 
     useEffect(() => {
         if (articles.data) {
+                        setPages(Math.round(articles.data.length / 5));
+
             const sortedArticles = [].concat(articles.data).sort(
                 (articleA, articleB) => {
                     const dateA = new Date(articleA.createdAt)
@@ -68,7 +64,7 @@ const Home: NextPage = () => {
 
 
         }
-    }, [pg, articles, listedArticles]);
+    }, [pg, listedArticles]);
 
     return (
         <div className={styles.container}>

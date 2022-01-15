@@ -8,6 +8,9 @@ const ArticleCard: React.FC<Article> = (article: Article) => {
     <div className="flex flex-col">
       <h1> {title} </h1>
       <p> {description} </p>
+      <small> {createdAt.toLocaleLowerCase()}</small>
+      
+      <small>  {  updatedAt.toString() }</small>
 
       <div className="details">
         <p> Comments ({comments.length}) </p>
